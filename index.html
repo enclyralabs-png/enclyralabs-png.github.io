@@ -221,6 +221,88 @@
             50% { transform: translate(20vw, 30vh) scale(1.5); }
             100% { transform: translate(-20vw, 0vh) scale(1.2); }
         }
+        /* =============== NEW CAROUSEL STYLES =============== */
+        #showcase {
+            text-align: center;
+        }
+
+        .carousel-container {
+            position: relative;
+            margin-top: 3rem;
+        }
+
+        .carousel-track {
+            display: flex;
+            overflow-x: auto;
+            /* This is the magic for the slide/snap effect */
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            /* Hide the default scrollbar */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+        .carousel-track::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, and Opera */
+        }
+
+        .carousel-card {
+            /* Each card takes up 90% of the container width */
+            flex: 0 0 90%;
+            margin-right: 2rem;
+            scroll-snap-align: center;
+            background-color: #000000; /* Pure black background */
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .carousel-track:hover .carousel-card {
+            transform: scale(0.95); /* Shrink cards on hover over the track */
+        }
+        .carousel-card:hover {
+            transform: scale(1) !important; /* The hovered card grows back to full size */
+        }
+
+        .carousel-card img {
+            width: 100%;
+            border-radius: 8px; /* Slightly rounded corners for the image itself */
+        }
+
+        .carousel-card h3 {
+            margin: 1rem 0 0 0;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(30, 35, 45, 0.7);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.2s ease;
+        }
+        .carousel-arrow:hover {
+            background-color: var(--card-bg);
+            color: var(--text-color-bright);
+            border-color: var(--accent);
+        }
+
+        .carousel-arrow.prev {
+            left: -20px;
+        }
+        .carousel-arrow.next {
+            right: -20px;
+        }
     </style>
 </head>
 <body>
@@ -280,6 +362,46 @@
                 Your browser does not support the video tag.
             </video>
         </section>
+        <!-- =============== THIS IS THE NEW CAROUSEL SECTION =============== -->
+        <section id="showcase">
+            <h2>Famous Open Source, Reimagined in the Enclyra View</h2>
+            
+            <div class="carousel-container">
+                <div class="carousel-track">
+
+                    <!-- Card 1: Flask -->
+                    <div class="carousel-card">
+                        <img src="assets/showcase-flask.png" alt="Flask project in Codeword Space">
+                        <h3>Flask</h3>
+                    </div>
+
+                    <!-- Card 2: Django (Placeholder) -->
+                    <div class="carousel-card">
+                        <img src="assets/showcase-django.png" alt="Django project in Codeword Space">
+                        <h3>Django</h3>
+                    </div>
+
+                    <!-- Card 3: PyTorch (Placeholder) -->
+                    <div class="carousel-card">
+                        <img src="assets/showcase-pytorch.png" alt="PyTorch project in Codeword Space">
+                        <h3>PyTorch</h3>
+                    </div>
+                    
+                    <!-- Card 4: ComfyUI (Placeholder) -->
+                    <div class="carousel-card">
+                        <img src="assets/showcase-comfyui.png" alt="ComfyUI project in Codeword Space">
+                        <h3>ComfyUI</h3>
+                    </div>
+
+                    <!-- Add more cards here as you create the screenshots -->
+
+                </div>
+                
+                <!-- Navigation Arrows -->
+                <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
+                <button class="carousel-arrow next" aria-label="Next image">›</button>
+            </div>
+        </section>
         <section id="roadmap">
             <h2>Find Your Tier</h2>
             <div class="timeline-container">
@@ -311,6 +433,23 @@
     <footer>
         <p>© 2025 Enclyra Labs. All rights reserved.</p>
     </footer>
+    <script>
+        const track = document.querySelector('.carousel-track');
+        const prevButton = document.querySelector('.carousel-arrow.prev');
+        const nextButton = document.querySelector('.carousel-arrow.next');
+
+        if (track && prevButton && nextButton) {
+            nextButton.addEventListener('click', () => {
+                const cardWidth = track.querySelector('.carousel-card').offsetWidth;
+                track.scrollBy({ left: cardWidth + 32, behavior: 'smooth' }); // 32 is for the 2rem margin
+            });
+
+            prevButton.addEventListener('click', () => {
+                const cardWidth = track.querySelector('.carousel-card').offsetWidth;
+                track.scrollBy({ left: -cardWidth - 32, behavior: 'smooth' });
+            });
+        }
+    </script>
 
 </body>
 </html>
