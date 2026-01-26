@@ -306,9 +306,46 @@
             right: -20px;
         }
         .pricing-section {
-          margin-top: 6rem;
-          padding-top: 3rem;
-          border-top: 1px solid var(--border-color);
+            margin-top: 6rem;
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+        
+        .pricing-intro {
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+        }
+        
+        .pricing-intro p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+        
+        .pricing-card {
+            display: inline-block;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 2.5rem 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+        }
+        
+        .price-tag {
+            display: inline-block;
+            background: var(--gradient);
+            color: #fff;
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .audience {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
         }
     </style>
 </head>
@@ -358,25 +395,27 @@
             </video>
         </section>
         <h2>Built for developers who want speed, not setup.</h2>
-        <p class="subtitle">
-        Blink replaces files, folders, and snippet managers with instant access from your menu bar.
-        </p>
         <section id="pricing" class="pricing-section">
-            <h2>Pricing</h2>
-            <div class="timeline-item">
-              <span class="tag">$9 / month</span>
-              <h3>Blink Pro</h3>
-              <p>
-                Blink Pro unlocks unlimited snippets with instant menu-bar access.
-                Everything stays local, works offline, and responds instantly.
-                Pay once per month. No accounts. No tracking.
-              </p>
-            <p class="audience">
-            Best for solo developers who reuse code daily.
+        <div class="pricing-intro">
+            <h2>Simple pricing. No accounts. No cloud.</h2>
+            <p>
+                Blink is built for speed. Everything runs locally, works offline,
+                and stays out of your way.
             </p>
-            </div>
-            </div>
-        </section>
+        </div>
+    
+        <div class="pricing-card">
+            <span class="price-tag">$9 / month</span>
+            <h3>Blink Pro</h3>
+            <p>
+                Unlimited snippets, instant menu-bar access,
+                fast local search, and lifetime updates.
+            </p>
+            <p class="audience">
+                Best for solo developers who reuse code daily.
+            </p>
+        </div>
+       </section>
     </div>
     <footer>
         <p>© 2025 Enclyra Labs. All rights reserved.</p>
