@@ -1,458 +1,459 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blink — Instant Code Snippets from Your Menu Bar</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0D1117;
-            --text-color: #E6EDF3;
-            --text-secondary: #8B949E;
-            --border-color: rgba(139, 148, 158, 0.2);
-            --card-bg: rgba(22, 27, 34, 0.7);
-            --glow-color: rgba(88, 166, 255, 0.3);
-            --gradient: linear-gradient(90deg, #3B82F6 40%, #2563EB 100%);
-            --gradient-hover: linear-gradient(90deg, #60A5FA 0%, #3B82F6 100%);
-        }
-
-        *, *::before, *::after { box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0; padding: 0; line-height: 1.7;
-            display: flex; flex-direction: column; align-items: center;
-            position: relative; overflow-x: hidden;
-        }
-
-        body::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 140vw; height: 140vh;
-            background: radial-gradient(ellipse at center, rgba(88, 166, 255, 0.12) 0%, transparent 60%);
-            z-index: 0; animation: ambient-light-drift 30s infinite alternate ease-in-out;
-            will-change: transform;
-        }
-
-        .container { max-width: 850px; width: 90%; padding: 3rem 0; position: relative; z-index: 1; }
-
-        header { text-align: center; margin-bottom: 5rem; display: flex; flex-direction: column; align-items: center; }
-        .brand-mark { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
-
-        /* Logo glow improvement */
-        .logo-img {
-            width: 72px; height: 72px;
-            animation: logo-glow 4s infinite ease-in-out;
-            filter: drop-shadow(0 0 12px rgba(88, 166, 255, 0.6));
-        }
-
-        @keyframes logo-glow {
-            0%, 100% { filter: drop-shadow(0 0 6px rgba(88, 166, 255, 0.4)) brightness(1); }
-            50% { filter: drop-shadow(0 0 18px rgba(88, 166, 255, 0.8)) brightness(1.2); }
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: -2px;
-            background: linear-gradient(90deg, #1E3A8A 0%, #3B82F6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-        }
-
-        .tagline { font-size: 1.75rem; font-weight: 400; color: var(--text-color); margin: 0.5rem 0 0 0; letter-spacing: -0.5px; }
-
-        h2 { font-size: 2.25rem; text-align: center; margin-top: 5rem; margin-bottom: 3rem; letter-spacing: -0.5px; }
-
-        /* Buttons */
-        .button-group { margin-top: 3rem; display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
-        .button {
-            display: inline-block;
-            padding: 0.9rem 1.8rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .button-primary {
-            background: var(--gradient);
-            color: #fff;
-            box-shadow: 0 0 20px rgba(88, 166, 255, 0.25);
-        }
-        .button-primary::after {
-            content: "";
-            position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
-            background: var(--gradient-hover);
-            transition: left 0.4s ease;
-            z-index: 0;
-        }
-        .button-primary:hover::after {
-            left: 0;
-        }
-        .button-primary:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 0 25px rgba(88, 166, 255, 0.4);
-        }
-        .button-primary span {
-            position: relative; z-index: 1;
-        }
-
-        .button-secondary {
-            background-color: transparent;
-            color: var(--text-color);
-            border: 1px solid var(--text-secondary);
-        }
-        .button-secondary:hover {
-            transform: translateY(-4px);
-            background-color: var(--card-bg);
-            border-color: #3B82F6;
-            color: #58A6FF;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Features */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        .feature-card {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(88, 166, 255, 0.5);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        .feature-card h3 { margin-top: 0; color: var(--text-color); font-size: 1.25rem; }
-        .feature-card p { font-size: 1rem; color: var(--text-secondary); }
-
-        /* Demo GIF */
-        #demo img {
-            width: 100%;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            margin-top: 1rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        /* Roadmap / Timeline */
-        #roadmap .timeline-container { position: relative; margin-top: 2rem; }
-        #roadmap .timeline-container::before {
-            content: '';
-            position: absolute;
-            left: 9px;
-            top: 10px;
-            bottom: 10px;
-            width: 3px;
-            background-color: var(--border-color);
-            border-radius: 2px;
-        }
-        .timeline-item {
-            position: relative;
-            padding-left: 3rem;
-            margin-bottom: 2.5rem;
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 5px;
-            width: 21px;
-            height: 21px;
-            border-radius: 50%;
-            background-color: var(--bg-color);
-            border: 4px solid var(--border-color);
-            box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .timeline-item:hover::before {
-            border-color: #58A6FF;
-            box-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
-        }
-        .timeline-item h3 {
-            font-size: 1.2rem;
-            color: var(--text-color);
-            margin: 0 0 0.25rem 0;
-        }
-        .timeline-item .tag {
-            display: inline-block;
-            background: var(--gradient);
-            color: white;
-            padding: 0.1rem 0.5rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            box-shadow: 0 0 10px rgba(88, 166, 255, 0.3);
-        }
-        .timeline-item p { font-size: 1rem; color: var(--text-secondary); margin: 0; }
-
-        footer {
-            text-align: center;
-            margin-top: 5rem;
-            padding: 2rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            border-top: 1px solid var(--border-color);
-            width: 100%;
-            position: relative;
-            z-index: 1;
-        }
-        footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s ease; }
-        footer a:hover { color: var(--text-color); }
-
-        @keyframes ambient-light-drift {
-            0% { transform: translate(-20vw, 0vh) scale(1.2); }
-            50% { transform: translate(20vw, 30vh) scale(1.5); }
-            100% { transform: translate(-20vw, 0vh) scale(1.2); }
-        }
-        /* =============== NEW CAROUSEL STYLES =============== */
-        #showcase {
-            text-align: center;
-        }
-
-        .carousel-container {
-            position: relative;
-            margin-top: 3rem;
-        }
-
-        .carousel-track {
-            display: flex;
-            overflow-x: auto;
-            /* This is the magic for the slide/snap effect */
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            /* Hide the default scrollbar */
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none;  /* IE and Edge */
-        }
-        .carousel-track::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, and Opera */
-        }
-
-        .carousel-card {
-            /* Each card takes up 90% of the container width */
-            flex: 0 0 90%;
-            margin-right: 2rem;
-            scroll-snap-align: center;
-            background-color: #000000; /* Pure black background */
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1rem;
-            text-align: center;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .carousel-track:hover .carousel-card {
-            transform: scale(0.95); /* Shrink cards on hover over the track */
-        }
-        .carousel-card:hover {
-            transform: scale(1) !important; /* The hovered card grows back to full size */
-            border-color: rgba(88, 166, 255, 0.5); /* Your accent color */
-            box-shadow: 0 0 25px rgba(88, 166, 255, 0.4); /* The glow */
-        }
-
-        .carousel-card img {
-            width: 100%;
-            border-radius: 8px; /* Slightly rounded corners for the image itself */
-        }
-
-        .carousel-card h3 {
-            margin: 1rem 0 0 0;
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-
-        .carousel-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(30, 35, 45, 0.7);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 24px;
-            cursor: pointer;
-            z-index: 2;
-            transition: all 0.2s ease;
-        }
-        .carousel-arrow:hover {
-            background-color: var(--card-bg);
-            color: var(--text-color-bright);
-            border-color: var(--accent);
-        }
-
-        .carousel-arrow.prev {
-            left: -20px;
-        }
-        .carousel-arrow.next {
-            right: -20px;
-        }
-        .pricing-section {
-            margin-top: 6rem;
-            padding: 4rem 0;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            text-align: center;
-        }
-        
-        .pricing-intro {
-            max-width: 600px;
-            margin: 0 auto 3rem auto;
-        }
-        
-        .pricing-intro p {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-        }
-        
-        .pricing-card {
-            display: inline-block;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 2.5rem 3rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-        }
-        
-        .price-tag {
-            display: inline-block;
-            background: var(--gradient);
-            color: #fff;
-            padding: 0.4rem 0.9rem;
-            border-radius: 999px;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        .audience {
-            margin-top: 1rem;
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Enclyra is an offline AI system for your Mac: a local 4B model that does multi-step tasks end to end, built for 8 GB of RAM. Free core forever.">
+  <title>Enclyra — Offline AI for your Mac</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #000000;
+      --panel: #07090d;
+      --panel-raised: #0b0e14;
+      --line: rgba(151, 176, 205, .16);
+      --muted: #98a8bc;
+      --text: #f3f7fc;
+      --blue: #0078ff;
+      --cyan: #3397da;
+      --glow: rgba(22, 140, 255, .28);
+      --max: 1160px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .site-shell { overflow: hidden; }
+    .wrap { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0, 0, 0, .82); backdrop-filter: blur(18px);
+    }
+    .nav { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font: 700 20px "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+    .brand img { width: 34px; height: 34px; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: 30px; color: #b4c0cf; font-size: 14px; }
+    .nav-links a { text-decoration: none; transition: color .2s ease; }
+    .nav-links a:hover { color: white; }
+    .nav-cta, .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      border-radius: 9px; padding: 11px 17px; text-decoration: none; font-weight: 700;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+    .nav-cta, .button-primary { color: white; border: 1px solid #0078ff; background: linear-gradient(135deg, #0078ff, #1167e0); box-shadow: 0 0 22px rgba(0,120,255,.2); }
+    .nav-cta:hover, .button-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,120,255,.36); }
+    .button-secondary { border: 1px solid rgba(172,194,218,.26); background: rgba(255,255,255,.025); color: #e3ebf5; }
+    .button-secondary:hover { transform: translateY(-2px); border-color: rgba(72,211,239,.65); background: rgba(72,211,239,.06); }
+    .hero {
+      position: relative; padding: 112px 0 100px; text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,90,200,.2), transparent 58%);
+    }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #73d9ee; text-transform: uppercase; letter-spacing: .14em; font-size: 11px; font-weight: 700; }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; background: var(--cyan); border-radius: 50%; box-shadow: 0 0 12px var(--cyan); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: "Space Grotesk", "DM Sans", sans-serif; }
+    h1 { max-width: 930px; margin: 24px auto 22px; font-size: clamp(45px, 7.3vw, 82px); line-height: 1.04; letter-spacing: -.065em; }
+    .gradient-text { color: #66bcff; background: linear-gradient(100deg, #f3f7fc 18%, #68c8f8 62%, #468fff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-copy { max-width: 660px; margin: 0 auto; color: #a9b7c8; font-size: clamp(17px, 2vw, 20px); }
+    .hero-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .hero-note { margin: 20px 0 0; color: #74859a; font-size: 13px; }
+    .pill { display: inline-flex; align-items: center; gap: 4px; padding: 5px; border: 1px solid rgba(172,194,218,.22); border-radius: 999px; background: var(--panel); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+    .pill:hover { transform: translateY(-3px); border-color: var(--blue); box-shadow: 0 10px 30px rgba(0,120,255,.22); }
+    .pill a { padding: 11px 20px; border-radius: 999px; text-decoration: none; font-weight: 700; white-space: nowrap; }
+    .pill-main { color: #fff; background: var(--blue); }
+    .pill-side { color: #c9d4e2; }
+    .pill-side:hover { color: #fff; }
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; width: 100%; max-width: 780px; margin: 44px auto 0; }
+    .fact { position: relative; min-height: 150px; padding: 22px 14px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); cursor: default; transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+    .fact:hover { transform: scale(1.08); z-index: 2; box-shadow: 0 16px 40px rgba(0,120,255,.2); }
+    .fact b { display: block; font: 700 28px "Space Grotesk", sans-serif; color: var(--text); letter-spacing: -.03em; }
+    .fact-label { display: block; margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.4; transition: opacity .2s; }
+    .fact-live { display: block; min-height: 20px; margin-top: 14px; color: var(--cyan); font: 600 13px ui-monospace, "SF Mono", Menlo, monospace; line-height: 1.4; opacity: 0; transition: opacity .5s ease; }
+    .fact.on .fact-live { opacity: 1; }
+    .type-dot { display: inline-block; width: 6px; height: 6px; margin-left: 4px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); vertical-align: middle; animation: blink .9s steps(2) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .facts { position: relative; z-index: 1; }
+    .fact::before, .fact::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; transition: opacity .35s ease; }
+    @property --ang { syntax: "<angle>"; inherits: false; initial-value: 135deg; }
+    .fact::before { background: linear-gradient(var(--ang), var(--blue) 0%, transparent 38%, transparent 62%, var(--blue) 100%); }
+    .fact::after { display: none; }
+    .fact:hover::before { animation: spin-edge 1.4s ease-in-out 1 forwards; }
+    @keyframes spin-edge { from { --ang: 135deg; } to { --ang: 225deg; } }
+    .fact.push-l { transform: translateX(-12px); }
+    .fact.push-r { transform: translateX(12px); }
+    #bits { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+    .section { padding: 100px 0; }
+    .section-kicker { text-align: center; color: var(--cyan); text-transform: uppercase; letter-spacing: .15em; font-size: 11px; font-weight: 700; }
+    .section-title { max-width: 760px; margin: 10px auto 16px; text-align: center; font-size: clamp(34px, 5vw, 52px); line-height: 1.12; letter-spacing: -.05em; }
+    .section-copy { max-width: 650px; margin: 0 auto 42px; text-align: center; color: var(--muted); font-size: 17px; }
+    .recall-section { padding-top: 96px; }
+    .recall-card {
+      display: grid; grid-template-columns: 1fr 1.02fr; overflow: hidden; min-height: 390px;
+      border: 1px solid rgba(69,151,231,.32); border-radius: 18px;
+      background: #000;
+      box-shadow: 0 0 65px rgba(0,120,255,.08);
+    }
+    .recall-copy { align-self: center; padding: clamp(30px, 5vw, 58px); }
+    .recall-copy h2 { margin: 14px 0 15px; font-size: clamp(34px, 4.2vw, 48px); line-height: 1.1; letter-spacing: -.05em; }
+    .recall-copy p { color: var(--muted); font-size: 16px; }
+    .recall-points { display: grid; gap: 11px; margin: 24px 0 28px; padding: 0; list-style: none; color: #d5dfeb; font-size: 14px; }
+    .recall-points li { display: flex; gap: 10px; align-items: flex-start; }
+    .recall-points li::before { content: "✓"; color: #52deb7; font-weight: 800; }
+    .recall-visual { display: grid; place-items: center; padding: 30px; background: radial-gradient(ellipse at 48% 50%, rgba(0,120,255,.16), transparent 67%); }
+    .recall-preview {
+      width: 100%; max-width: 490px; min-height: 300px; overflow: hidden; position: relative;
+      border: 1px solid rgba(157,184,214,.24); border-radius: 13px;
+      background: #090d13; box-shadow: 0 24px 70px rgba(0,0,0,.5);
+    }
+    .recall-preview img { display: block; width: 100%; height: 100%; min-height: 300px; object-fit: cover; }
+    .studios { border-top: 1px solid var(--line); background: transparent; }
+    .studio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 42px; }
+    .studio-card { overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: #000; transition: transform .22s, border-color .22s, box-shadow .22s; }
+    .studio-card:hover { transform: translateY(-4px); border-color: rgba(72,211,239,.35); box-shadow: 0 20px 44px rgba(0,0,0,.25); }
+    .studio-art { min-height: 170px; display: grid; place-items: center; overflow: hidden; border-bottom: 1px solid var(--line); background: radial-gradient(circle at 50% 70%, rgba(0,120,255,.19), transparent 60%), #0b1017; }
+    .studio-icon { width: 64px; height: 64px; display: grid; place-items: center; border: 1px solid rgba(82,187,255,.34); border-radius: 18px; background: rgba(0,120,255,.1); color: #78c8ff; box-shadow: 0 0 35px rgba(0,120,255,.16); font-size: 29px; }
+    .studio-body { padding: 22px; }
+    .studio-body h3 { margin: 0 0 8px; font-size: 20px; letter-spacing: -.03em; }
+    .studio-body p { margin: 0; color: var(--muted); font-size: 14px; }
+    .demo-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin: 34px 0 18px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: #000; }
+    .demo-toolbar p { margin: 0; color: #a9b7c8; font-size: 14px; }
+    .demo-speed { display: inline-flex; align-items: center; gap: 10px; color: #a9b7c8; font-size: 13px; font-weight: 600; white-space: nowrap; }
+    .demo-speed select { color: var(--text); border: 1px solid rgba(72,211,239,.32); border-radius: 8px; background: #101722; padding: 9px 30px 9px 11px; font: inherit; cursor: pointer; }
+    .demo-speed select:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .demo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .demo-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: #000; transition: transform .22s, border-color .22s, box-shadow .22s; }
+    .demo-card:hover { transform: translateY(-3px); border-color: rgba(72,211,239,.36); box-shadow: 0 18px 42px rgba(0,0,0,.25); }
+    .demo-video { display: block; width: 100%; aspect-ratio: 1.537 / 1; object-fit: contain; background: #05080d; border-bottom: 1px solid var(--line); }
+    .demo-video:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+    .demo-copy { padding: 19px 20px 21px; }
+    .demo-copy h3 { margin: 0 0 6px; font-size: 19px; letter-spacing: -.03em; }
+    .demo-copy p { margin: 0; color: var(--muted); font-size: 14px; }
+    .demo-tag { display: inline-block; margin-bottom: 8px; color: #75d9ef; text-transform: uppercase; letter-spacing: .11em; font-size: 10px; font-weight: 700; }
+    .how { border-top: 1px solid var(--line); }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 44px; }
+    .step { border-top: 1px solid rgba(72,211,239,.42); padding-top: 19px; }
+    .step-number { color: var(--cyan); font: 600 12px "Space Grotesk", sans-serif; letter-spacing: .08em; }
+    .step h3 { margin: 10px 0 7px; font-size: 20px; }
+    .step p { margin: 0; color: var(--muted); font-size: 14px; }
+    .product-section { padding: 76px 0 90px; border-top: 1px solid var(--line); background: transparent; }
+    .product-card { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: clamp(25px, 5vw, 44px); border: 1px solid var(--line); border-radius: 16px; background: #000; }
+    .product-card h2 { margin: 6px 0 8px; font-size: 28px; }
+    .product-card p { max-width: 620px; margin: 0; color: var(--muted); }
+    .coming-badge { display: inline-flex; padding: 5px 10px; border: 1px solid rgba(72,211,239,.3); border-radius: 99px; color: #75d9ef; background: rgba(72,211,239,.06); text-transform: uppercase; letter-spacing: .1em; font-size: 10px; font-weight: 700; }
+    .product-links { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 17px; color: #aebdd0; font-size: 12px; }
+    .product-links a { color: #aebdd0; text-underline-offset: 3px; }
+    .product-links a:hover { color: white; }
+    .blink-mark { flex: 0 0 90px; width: 90px; height: 90px; display: grid; place-items: center; border-radius: 24px; color: #8dcfff; background: linear-gradient(145deg, rgba(0,120,255,.2), rgba(0,120,255,.04)); border: 1px solid rgba(0,120,255,.25); font: 700 35px "Space Grotesk", sans-serif; }
+    footer { border-top: 1px solid var(--line); color: #8494a8; font-size: 13px; }
+    .footer-inner { min-height: 86px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .footer-brand { color: #dce5ef; font: 600 14px "Space Grotesk", sans-serif; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { text-decoration: none; }
+    .footer-links a:hover { color: white; }
+    @media (max-width: 760px) {
+      .wrap { width: min(var(--max), calc(100% - 34px)); }
+      .nav { min-height: 64px; }
+      .nav-links { gap: 15px; font-size: 12px; }
+      .nav-links a:nth-child(2) { display: none; }
+      .nav-cta { padding: 9px 12px; font-size: 12px; }
+      .hero { padding: 82px 0 82px; }
+      .section { padding: 75px 0; }
+      .recall-card { grid-template-columns: 1fr; }
+      .recall-copy { padding-bottom: 20px; }
+      .recall-visual { padding: 10px 22px 28px; }
+      .studio-grid { grid-template-columns: 1fr; }
+      .studio-card { display: grid; grid-template-columns: 140px 1fr; }
+      .studio-art { min-height: 100%; border-bottom: 0; border-right: 1px solid var(--line); }
+      .demo-grid { grid-template-columns: 1fr; }
+      .demo-toolbar { align-items: flex-start; flex-direction: column; }
+      .steps { grid-template-columns: 1fr; gap: 22px; }
+      .facts { grid-template-columns: 1fr; }
+      .pill { flex-direction: column; border-radius: 22px; }
+      .product-card { align-items: flex-start; }
+      .blink-mark { flex-basis: 60px; width: 60px; height: 60px; border-radius: 17px; font-size: 25px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; justify-content: center; padding-block: 20px; }
+    }
+    @media (max-width: 430px) {
+      .brand { font-size: 17px; gap: 7px; }
+      .brand img { width: 29px; height: 29px; }
+      .nav-links { gap: 10px; }
+      .nav-links a:nth-child(1) { display: none; }
+      .hero-actions .button { width: 100%; }
+      .studio-card { grid-template-columns: 105px 1fr; }
+      .studio-art { min-height: 130px; }
+      .studio-icon { width: 52px; height: 52px; font-size: 23px; }
+      .studio-body { padding: 16px; }
+      .demo-copy { padding: 16px; }
+      .product-card { gap: 12px; }
+      .footer-links { flex-wrap: wrap; gap: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
 <body>
+  <div class="site-shell">
+    <div class="topbar">
+      <nav class="nav wrap" aria-label="Main navigation">
+        <a class="brand" href="#top" aria-label="Enclyra home"><img src="icons/enclyra2_logo.png" alt=""><span>Enclyra AI</span></a>
+        <div class="nav-links">
+          <a href="#recall">Recall</a>
+          <a href="#studios">Studios</a>
+          <a href="#products">Other products</a>
+        </div>
+      </nav>
+    </div>
 
-    <div class="container">
-        <header>
-            <div class="brand-mark">
-                <img src="assets/enclyra2_logo.png" alt="Enclyra Logo" class="logo-img"> <!-- Use your new logo -->
-                <h1>Blink</h1>
-            </div>
-            <p class="tagline">Instant code snippets. Always one shortcut away.</p>
-            <div class="button-group">
-                <a href=https://enclyralabs.gumroad.com/l/luxjsc class="button button-secondary">Get Blink</a>
-            </div>
-        </header>
-        <section id="features">
-            <h2>Save. Search. Reuse.</h2>
-            <div class="features-grid">
-                           <div class="feature-card">
-              <h3>Instant Snippets</h3>
-              <p>Save code snippets in seconds. No files, no folders, no editor setup.</p>
-            </div>
-            
-            <div class="feature-card">
-              <h3>Menu Bar Access</h3>
-              <p>Blink lives in your macOS menu bar. Search and copy snippets without opening an app.</p>
-            </div>
-            
-            <div class="feature-card">
-              <h3>Offline & Fast</h3>
-              <p>All snippets are stored locally. No accounts, no internet, no latency.</p>
-            </div>
-            </div>
-        </section>
-        <section id="demo">
-            <video autoplay loop muted playsinline style="
-                width:100%;
-                border-radius:12px;
-                border:1px solid var(--border-color);
-                margin-top:1rem;
-                box-shadow:0 20px 40px rgba(0,0,0,0.4);
-            ">
-                <source src="assets/demo.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </section>
-        <h2>Built for developers who want speed, not setup.</h2>
-        <section id="pricing" class="pricing-section">
-        <div class="pricing-intro">
-            <h2>Simple pricing. No accounts. No cloud.</h2>
-            <p>
-                Blink is built for speed. Everything runs locally, works offline,
-                and stays out of your way.
-            </p>
-            <!-- START OF INSTALLATION NOTE -->
-            <div style="margin: 2.5rem auto; max-width: 550px; padding: 1.5rem; border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 12px; background: rgba(59, 130, 246, 0.05); text-align: left;">
-                <h4 style="margin-top: 0; color: #3B82F6; display: flex; align-items: center; gap: 10px; font-size: 1.1rem;">
-                    <span>◎</span> macOS Installation Note
-                </h4>
-                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0;">
-                    Blink is currently in <b>Indie-Beta</b>. Because it is not yet notarized by Apple, you will see a security warning upon opening. 
-                    <br><br>
-                    <b>To authorize Blink:</b>
-                    <br>1. Open <b>System Settings</b> 
-                    <br>2. Go to <b>Privacy & Security</b>
-                    <br>3. Scroll down and click <b>"Open Anyway"</b> under the Blink section.
-                </p>
-            </div>
+    <main id="top">
+      <section class="hero">
+        <div class="wrap">
+          <span class="eyebrow">Runs entirely on your Mac</span>
+          <h1>An offline AI system <span class="gradient-text">that runs your Mac.</span></h1>
+          <p class="hero-copy">Enclyra runs a 4B model on your MacBook and does multi-step tasks end to end. Optimized for 8&nbsp;GB of RAM.</p>
+          <div class="hero-actions"><div class="pill">
+            <a class="pill-main" href="#studios">Watch it work <span aria-hidden="true">→</span></a>
+            <a class="pill-side" href="#get">Download · coming soon</a>
+          </div></div>
+          <p class="hero-note">It uses the web only to search when a task needs it. Your data and your model never leave your Mac, so the core stays free forever.</p>
+          <div class="facts">
+            <div class="fact" data-cycle="Create a file|Send an email|Zip a folder|Free up disk space|Set a reminder|Download from the web|Take a screenshot|Turn on Wi‑Fi|Move files|Rename a file|Find a file by meaning|Add a calendar event|Write a note|Play music|Search the web|Copy text from an image|Clipboard history|Remove a background|Video to GIF|Record the screen|Transcribe audio|Add subtitles|Resize images|Convert a file|Arrange windows|Toggle Bluetooth|Set the volume|Run a Shortcut|Open an app|Set up Docker|Run a terminal command"><b>80+</b><span class="fact-label">core actions</span><span class="fact-live"></span></div>
+            <div class="fact" data-cycle="PDF studio · merge, sign, redact|Image studio · cut out, mark, blur|Video studio · trim, crop, fade|Audio studio · fade, even out, cut silence"><b>4</b><span class="fact-label">studios</span><span class="fact-live"></span></div>
+            <div class="fact" data-cycle="“Make my Mac dark”|“Play Interstellar soundtrack”|“Organize my Downloads”|“Find my resume and email it”|“Zip the project and put it on Desktop”|“Search AI news, save it to Notes, remind me at 10”|“Merge these PDFs and sign page 2”|“Cut the background from this photo”|“Trim the first 10 seconds of clip.mov”|“What’s eating my disk space?”|“Turn my mail into reminders”|“Find the invoice I got last week”"><b>85–90%</b><span class="fact-label">reliability in my tests</span><span class="fact-live"></span></div>
+          </div>
         </div>
-    
-        <div class="pricing-card">
-            <span class="price-tag">$9 / month</span>
-            <h3>Blink Pro</h3>
-            <p>
-                Unlimited snippets, instant menu-bar access,
-                fast local search, and lifetime updates.
-            </p>
-            <p class="audience">
-                Best for solo developers who reuse code daily.
-            </p>
+      </section>
+
+      <section class="section recall-section" id="recall">
+        <div class="wrap">
+          <div class="recall-card">
+            <div class="recall-copy">
+              <span class="eyebrow">The feature to remember</span>
+              <h2>Recall what you can’t quite remember.</h2>
+              <p>Describe a file, note, or piece of information by what you remember about it. Recall searches your Mac and brings likely matches back into the conversation.</p>
+              <ul class="recall-points">
+                <li>Search by meaning, details, and context</li>
+                <li>Use what it finds in the next step</li>
+                <li>Ask for a review before moving or changing files</li>
+              </ul>
+              <a class="button button-primary" href="#studios">See what else Enclyra can do <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="recall-visual">
+              <div class="recall-preview" id="recall-preview">
+                <img src="assets/RECALL_st.png" alt="Enclyra Recall finding and selecting a relevant file">
+              </div>
+            </div>
+          </div>
         </div>
-       </section>
-    </div>
-    <div style="margin-top: 3rem; display: flex; justify-content: center; width: 100%; opacity: 0.9;">
-            <a href="https://www.producthunt.com/products/blink-25?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-blink-d8e9b976-4225-4087-86f0-ea33b46cbce8" target="_blank" rel="noopener noreferrer"><img alt="Blink - Instant code recall. A native macOS app for developers. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1070328&amp;theme=light&amp;t=1769767836106"></a>
-    </div>
+      </section>
+
+      <section class="section studios" id="studios">
+        <div class="wrap">
+          <p class="section-kicker">Made for real work</p>
+          <h2 class="section-title">Focused tools when a task needs more than a quick answer.</h2>
+          <p class="section-copy">Watch real workflows, from visual edits to browser research and Mac tasks, and see how Enclyra keeps you in control of the result.</p>
+          <div class="demo-toolbar">
+            <p>Six real walkthroughs from Enclyra. Pick a video and watch the workflow end to end.</p>
+            <label class="demo-speed" for="demo-speed">Playback speed
+              <select id="demo-speed" aria-label="Set demo playback speed">
+                <option value="1">1× · Original</option>
+                <option value="1.25" selected>1.25× · Recommended</option>
+                <option value="1.5">1.5× · Quick</option>
+                <option value="2">2× · Fast</option>
+              </select>
+            </label>
+          </div>
+          <div class="demo-grid">
+            <article class="demo-card">
+              <video class="demo-video" controls playsinline preload="none" poster="assets/PDF_st.png" data-encoded-rate="1.25" aria-label="PDF Studio walkthrough">
+                <source src="assets/demos/pdf.mp4" type="video/mp4">Your browser can’t play this demo. <a href="assets/demos/pdf.mp4">Open the video.</a>
+              </video>
+              <div class="demo-copy"><span class="demo-tag">Document workflow</span><h3>PDF Studio</h3><p>Combine and organize pages, sign, redact, and review the finished PDF.</p></div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls playsinline preload="none" poster="assets/VID_st.png" data-encoded-rate="1.25" aria-label="Video Studio walkthrough">
+                <source src="assets/demos/video.mp4" type="video/mp4">Your browser can’t play this demo. <a href="assets/demos/video.mp4">Open the video.</a>
+              </video>
+              <div class="demo-copy"><span class="demo-tag">Video workflow</span><h3>Video Studio</h3><p>Trim a clip, adjust the frame, preview the edit, and keep the result.</p></div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls playsinline preload="none" poster="assets/demos/image.png" data-encoded-rate="1.25" aria-label="Image Studio walkthrough">
+                <source src="assets/demos/image.mp4" type="video/mp4">Your browser can’t play this demo. <a href="assets/demos/image.mp4">Open the video.</a>
+              </video>
+              <div class="demo-copy"><span class="demo-tag">Image workflow</span><h3>Image Studio</h3><p>Remove a background, crop and resize, then inspect the preview before keeping it.</p></div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls playsinline preload="none" poster="assets/demos/web.png" data-encoded-rate="1.25" aria-label="Mac automation and web workflow walkthrough">
+                <source src="assets/demos/web.mp4" type="video/mp4">Your browser can’t play this demo. <a href="assets/demos/web.mp4">Open the video.</a>
+              </video>
+              <div class="demo-copy"><span class="demo-tag">Multi-step workflow</span><h3>Mac Automation + Web</h3><p>See Enclyra carry a natural-language request through browser research and Mac actions.</p></div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls playsinline preload="none" poster="assets/RECALL_st.png" data-encoded-rate="1.25" aria-label="Recall workflow walkthrough">
+                <source src="assets/demos/recall.mp4" type="video/mp4">Your browser can’t play this demo. <a href="assets/demos/recall.mp4">Open the video.</a>
+              </video>
+              <div class="demo-copy"><span class="demo-tag">Find by meaning</span><h3>Recall</h3><p>Search for a file from what you remember, choose the right match, then use it in the task.</p></div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls playsinline preload="none" poster="assets/STO_st.png" data-encoded-rate="1.25" aria-label="System Care walkthrough">
+                <source src="assets/demos/system.mp4" type="video/mp4">Your browser can’t play this demo. <a href="assets/demos/system.mp4">Open the video.</a>
+              </video>
+              <div class="demo-copy"><span class="demo-tag">Mac maintenance</span><h3>System Care</h3><p>Review disk and system findings, then choose what should be cleaned up.</p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section how">
+        <div class="wrap">
+          <p class="section-kicker">A simple way to work</p>
+          <h2 class="section-title">Say what you want done. Stay in control.</h2>
+          <div class="steps">
+            <article class="step"><span class="step-number">01 / ASK</span><h3>Use your own words</h3><p>Tell Enclyra what you’re trying to do, even if you don’t know the exact file or action name.</p></article>
+            <article class="step"><span class="step-number">02 / REVIEW</span><h3>See the work as it happens</h3><p>Follow the steps and review useful results in the conversation.</p></article>
+            <article class="step"><span class="step-number">03 / CONTINUE</span><h3>Keep the task moving</h3><p>Use what Enclyra finds to summarize, organize, create, or continue with another action.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section get" id="get">
+        <div class="wrap" style="text-align:center">
+          <p class="section-kicker">Free core forever · coming soon</p>
+          <h2 class="section-title">Download starts soon.</h2>
+          <p class="section-copy">Covers most day-to-day tasks with 80+ core actions, 4 studios, and many workflows built from them. Works offline on Apple Silicon with 8&nbsp;GB of RAM.</p>
+          <div class="hero-actions">
+            <span class="button button-secondary" aria-disabled="true">Download · coming soon</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="product-section" id="products">
+        <div class="wrap">
+          <div class="product-card">
+            <div>
+              <span class="coming-badge">Available now</span>
+              <h2>Blink</h2>
+              <p>Another product from Enclyra Labs: instant code recall, a native macOS app for developers. Available to download now.</p>
+              <div class="product-links">
+                <a href="https://enclyralabs.gumroad.com/l/luxjsc" target="_blank" rel="noopener noreferrer">Download Blink ↗</a>
+                <a href="https://www.producthunt.com/products/blink-25?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-blink-d8e9b976-4225-4087-86f0-ea33b46cbce8" target="_blank" rel="noopener noreferrer">Blink on Product Hunt ↗</a>
+              </div>
+              <div style="margin-top:18px">
+                <a href="https://www.producthunt.com/products/blink-25?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-blink-d8e9b976-4225-4087-86f0-ea33b46cbce8" target="_blank" rel="noopener noreferrer"><img alt="Blink - Instant code recall. A native macOS app for developers. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1070328&amp;theme=light&amp;t=1769767836106"></a>
+              </div>
+            </div>
+            <div class="blink-mark" aria-hidden="true">B</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
     <footer>
-        <p>© 2026 Enclyra Labs. All rights reserved.</p>
+      <div class="footer-inner wrap">
+        <span class="footer-brand">© 2026 Enclyra Labs. All rights reserved.</span>
+        <div class="footer-links"><a href="#recall">Recall</a><a href="#studios">Studios</a><a href="#products">Other products</a></div>
+      </div>
     </footer>
-    <script>
-        const track = document.querySelector('.carousel-track');
-        const prevButton = document.querySelector('.carousel-arrow.prev');
-        const nextButton = document.querySelector('.carousel-arrow.next');
+  </div>
+  <script>
+    (() => {
+      const speedPicker = document.getElementById("demo-speed");
+      const demoVideos = document.querySelectorAll(".demo-video");
+      if (!speedPicker || !demoVideos.length) return;
 
-        if (track && prevButton && nextButton) {
-            nextButton.addEventListener('click', () => {
-                const cardWidth = track.querySelector('.carousel-card').offsetWidth;
-                track.scrollBy({ left: cardWidth + 32, behavior: 'smooth' }); // 32 is for the 2rem margin
-            });
+      const applySpeed = () => {
+        const requestedRate = Number(speedPicker.value) || 1.25;
+        demoVideos.forEach((video) => {
+          const encodedRate = Number(video.dataset.encodedRate) || 1;
+          video.playbackRate = requestedRate / encodedRate;
+        });
+      };
 
-            prevButton.addEventListener('click', () => {
-                const cardWidth = track.querySelector('.carousel-card').offsetWidth;
-                track.scrollBy({ left: -cardWidth - 32, behavior: 'smooth' });
-            });
+      speedPicker.addEventListener("change", applySpeed);
+      // whole page is a hidden 0/1 field; hovering a card wakes a few digits around the cursor
+      const cv = document.createElement("canvas"); cv.id = "bits"; document.body.prepend(cv);
+      const ctx = cv.getContext("2d");
+      const bits = { on: false, glow: 0, mx: -999, my: -999, sx: -999, sy: -999, cells: [] };
+      const size = () => {
+        const d = window.devicePixelRatio || 1;
+        cv.width = innerWidth * d; cv.height = innerHeight * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+        bits.cells = [];
+        for (let y = 6; y < innerHeight; y += 9) for (let x = 4; x < innerWidth; x += 7)
+          bits.cells.push({ x, y, c: Math.random() < .5 ? "0" : "1", seed: Math.random() });
+      };
+      size(); addEventListener("resize", size);
+      addEventListener("mousemove", (e) => { bits.mx = e.clientX; bits.my = e.clientY; });
+      const tick = () => {
+        bits.glow += ((bits.on ? 1 : 0) - bits.glow) * .035;
+        bits.sx += (bits.mx - bits.sx) * .08; bits.sy += (bits.my - bits.sy) * .08;
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        if (bits.glow > .01) {
+          ctx.font = "600 7px ui-monospace, Menlo, monospace"; ctx.textBaseline = "middle";
+          for (const p of bits.cells) {
+            const dx = p.x - bits.sx, dy = p.y - bits.sy, dist = Math.hypot(dx, dy) || 1;
+            const near = Math.max(0, 1 - dist / 320);
+            if (near <= 0 || p.seed > near * 1.35) continue;     // only a scattered few show, more near the cursor
+            if (Math.random() < .012) p.c = p.c === "0" ? "1" : "0";
+            const push = near * near * 18;
+            ctx.fillStyle = `rgba(51,151,255,${bits.glow * near * (.4 + .6 * p.seed)})`;
+            ctx.fillText(p.c, p.x + dx / dist * push, p.y + dy / dist * push);
+          }
         }
-    </script>
-
+        requestAnimationFrame(tick);
+      };
+      tick();
+      document.querySelectorAll(".pill a, .button, .demo-card, .studio-card, .recall-card").forEach((el) => {
+        el.addEventListener("mouseenter", () => { bits.on = true; });
+        el.addEventListener("mouseleave", () => { bits.on = false; });
+      });
+      let turn = 0;
+      const nextTurn = () => document.dispatchEvent(new CustomEvent("facttick", { detail: turn++ % 3 }));
+      let paused = false;
+      setTimeout(nextTurn, 0); setInterval(() => { if (!paused) nextTurn(); }, 1100);
+      document.querySelectorAll(".fact").forEach((card) => {
+        const items = card.dataset.cycle.split("|");
+        const live = card.querySelector(".fact-live");
+        let i = 0, timer = null, frame = null;
+        const decode = (text) => {                    // a dot types the text out fast
+          clearInterval(frame);
+          let n = 0;
+          frame = setInterval(() => {
+            n++;
+            live.innerHTML = "";
+            live.append(text.slice(0, n));
+            const dot = document.createElement("i"); dot.className = "type-dot"; live.append(dot);
+            if (n >= text.length) clearInterval(frame);
+          }, 19);
+        };
+        const show = () => decode(items[i++ % items.length]);
+        const cards = [...document.querySelectorAll(".fact")], me = cards.indexOf(card);
+        card.classList.add("on");                       // always typing, staggered per card
+        document.addEventListener("facttick", (e) => { if (e.detail === me) show(); });   // cards take turns: 1, 2, 3, 1…
+        card.addEventListener("mouseenter", () => {
+          bits.on = true; paused = true; show(); timer = setInterval(show, 1100);   // only the hovered card changes
+          cards.forEach((c, k) => c.classList.toggle("push-l", k < me) || c.classList.toggle("push-r", k > me));
+        });
+        card.addEventListener("mouseleave", () => {
+          bits.on = false; paused = false; clearInterval(timer);
+          cards.forEach((c) => c.classList.remove("push-l", "push-r"));
+        });
+      });
+      applySpeed();
+    })();
+  </script>
 </body>
 </html>
