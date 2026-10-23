@@ -7,7 +7,8 @@ const PAGE = 1000;
 export default async function handler(req, res) {
   if (req.method !== "GET") return res.status(405).json({ ok: false });
   const key = String(process.env.DESK_KEY || "").trim();          // a pasted key often carries a space / newline
-  if (!key || String(req.headers["x-desk-key"] || "").trim() !== key) return res.status(401).json({ ok: false });
+  if (!key) return res.status(401).json({ ok: false, error: "DESK_KEY not set on the server" });
+  if (String(req.headers["x-desk-key"] || "").trim() !== key) return res.status(401).json({ ok: false, error: "wrong key" });
   if (!ready()) return res.status(503).json({ ok: false, error: "storage not connected" });
 
   const start = Math.max(0, parseInt(req.query.start || "0", 10) || 0);
