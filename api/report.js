@@ -3,7 +3,7 @@
 import { createHash, randomUUID } from "crypto";
 import { redis, ready, LIST } from "./_store.js";
 
-const MAX_BYTES = 8000;          // a whole report; anything bigger is refused
+const MAX_BYTES = 14000;         // a whole report; anything bigger is refused
 const PER_MINUTE = 10;           // reports per sender per minute
 const KEEP = 50000;              // newest reports kept
 
@@ -36,6 +36,8 @@ export default async function handler(req, res) {
     action: s(body.action, 60),
     reason: s(body.reason, 2000),
     steps: Array.isArray(body.steps) ? body.steps.slice(0, 20).map((x) => s(x, 60)) : [],
+    prompt: s(body.prompt, 600),     // what the user asked, names already hidden by the app
+    log: s(body.log, 6000),          // that prompt's log lines, names already hidden by the app
     user_text: s(body.user_text, 1000),
   };
   if (!rec.reason && !rec.user_text) return res.status(400).json({ ok: false });
