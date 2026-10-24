@@ -5,7 +5,7 @@ import { redis, ready, LIST } from "./_store.js";
 
 const MAX_BYTES = 14000;         // a whole report; anything bigger is refused
 const PER_MINUTE = 10;           // reports per sender per minute
-const KEEP = 50000;              // newest reports kept
+const KEEP = 100000;             // newest reports kept — back them up to the SSD (desk.py) before 100k
 
 const s = (v, n) => (typeof v === "string" ? v.slice(0, n) : "");
 
