@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Enclyra</title>
+<style>
+  :root { --bg:#0b0b0c; --text:#e8e8ea; --muted:#9a9aa2; --accent:#7c5cff; --line:#222226; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width:760px; margin:0 auto; padding:48px 16px 80px; }
+  h1 { font-size:32px; margin:0 0 4px; }
+  h2 { font-size:20px; margin:36px 0 8px; padding-top:16px; border-top:1px solid var(--line); }
+  .date, small { color:var(--muted); }
+  a { color:var(--accent); }
+  ul { padding-left:22px; }
+  .box { border:1px solid var(--line); border-radius:10px; padding:14px 18px; background:#111114; }
+  code { background:#1a1a1e; padding:1px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Privacy Policy</h1>
+<p class="date">Last updated: 24 October 2026</p>
+
+<div class="box">
+<b>The short version:</b> Enclyra runs on your Mac. Your files, your chats and your memory stay on your Mac.
+We receive data only when you send a report or feedback, or when a step fails and you chose
+<b>Always send</b>. Before a report leaves your Mac, Enclyra takes out file names, folder names and file contents.
+That filter works in most cases in our testing, but it is not perfect. We use what we receive to improve Enclyra,
+including to train our AI.
+</div>
+
+<h2>1. Who we are</h2>
+<p>Enclyra is made by EnclyraLabs ("we", "us"). This policy explains what the Enclyra app for macOS
+("the app") does with your data.</p>
+
+<h2>2. What stays on your Mac</h2>
+<p>Everything below is stored only on your Mac and is never sent to us:</p>
+<ul>
+  <li>Your files and folders, their contents, and everything the app does with them.</li>
+  <li>Your conversations with the assistant.</li>
+  <li>Enclyra's memory: what it learns about you, your habits and your preferences.</li>
+  <li>The file index the app builds so it can find your files fast.</li>
+  <li>Your settings and personal details you enter.</li>
+</ul>
+<p>The AI models run on your Mac (through Ollama / llama.cpp). Your requests are not sent to a cloud AI.</p>
+<p>App data is kept in <code>~/Library/Application Support/EnclyraAI</code>. You can delete that folder at any time
+to remove it.</p>
+
+<h2>3. What we receive, and when</h2>
+<p>We receive data in only these cases:</p>
+<ul>
+  <li><b>You press Send</b> on a failure report, on the bug button of a finished plan, or on feedback.</li>
+  <li><b>A step fails and you chose "Always send".</b> Then the report is sent automatically, without showing it
+      to you first. You can change this at any time (see section 8).</li>
+</ul>
+<p>Nothing else is ever sent to us.</p>
+
+<p><b>a) Failure reports and the bug button.</b> A report contains:</p>
+<ul>
+  <li>the app version, your macOS version and your chip type (for example "macOS 15.1 arm64");</li>
+  <li>the name of the step that failed, and its error message;</li>
+  <li>what you asked (up to 600 characters);</li>
+  <li>the app's technical log for that one request (up to 6,000 characters): which steps ran, in what order, and
+      what went wrong;</li>
+  <li>for the bug button: the list of steps the plan ran.</li>
+</ul>
+
+<p><b>b) Feedback (the Report button).</b> The text you type, plus the app version and your macOS version.
+<b>What you type is sent exactly as you wrote it.</b> Please don't put personal details in it.</p>
+
+<p><b>The filter.</b> Before a failure report or bug report is sent, Enclyra removes:</p>
+<ul>
+  <li><b>file contents</b>: text the app read, wrote, summarised, copied or saw on your screen is taken out of the
+      log, and step results that could repeat it are hidden;</li>
+  <li><b>file and folder names</b>, replaced by stand-ins like <code>FILE_1.pdf</code> and <code>FOLDER_1</code>;</li>
+  <li><b>email addresses, links and phone numbers</b>, replaced by <code>EMAIL_1</code>, <code>URL_1</code>,
+      <code>PHONE_1</code>;</li>
+  <li>your Mac user name.</li>
+</ul>
+<p><b>Private data check.</b> On top of the filter, Enclyra checks every report for things like a PIN, a password,
+an OTP, a card number, an ID number (such as Aadhaar, PAN or SSN), a bank account number or a secret key. If it finds
+one, the report is <b>not sent</b>, not even with "Always send". It is kept on your Mac only, under Settings →
+Storage &amp; privacy → Held reports, where you can read it, send it yourself, or delete it. If feedback you typed
+looks private, Enclyra asks before sending it.</p>
+<p>This filter and check work in most cases in our lab testing, <b>but they are not perfect</b>. Some personal detail could
+still get through, especially in what you typed. When you choose Send, the dialog shows you exactly what will be
+sent first. Please look at it. If you don't want to take any risk, choose <b>Never send</b>.</p>
+
+<p><b>We never receive:</b> your files, your memory, your chat history, your contacts, your email, your calendar,
+your passwords, or anything from a report you did not send or allow.</p>
+
+<h2>4. Your consent, and how we use the data</h2>
+<p>We collect reports only because you choose to send them (by pressing Send, or by choosing Always send). That
+choice is your consent.</p>
+<p>By sending a report or feedback, you give EnclyraLabs a free, worldwide, permanent right to keep, copy, study,
+change and use it. We may use it in any way that helps us build and improve Enclyra and our other products,
+including:</p>
+<ul>
+  <li>finding and fixing bugs;</li>
+  <li>testing and improving how the app plans and acts;</li>
+  <li><b>training and improving our own AI systems and models</b>;</li>
+  <li>studying how the app is used, in total.</li>
+</ul>
+<p>Reports may be read by people on our team, not only by machines.</p>
+<p>We do <b>not</b> sell reports, and we do not share them with advertisers.</p>
+
+<h2>5. How we store reports</h2>
+<ul>
+  <li>Reports are stored in a database run for us by our hosting providers, Vercel and Upstash. Their servers may
+      be outside your country, including in the United States. By sending a report, you agree to that.</li>
+  <li>We may also keep copies of reports on our own storage.</li>
+  <li><b>We do not store your IP address.</b> To stop spam, our server makes a short scrambled code (a hash) from
+      the IP address. That code is deleted after 2 minutes.</li>
+  <li>Reports have no account, name or email attached. We cannot tell who sent a report.</li>
+  <li>We may keep reports for as long as we need them to improve Enclyra.</li>
+  <li>We protect the database with access keys. But no system on the internet is 100% secure, and we can't
+      promise that the data will never be accessed without permission.</li>
+</ul>
+<p>Because reports are anonymous, we usually can't find a specific report to delete it. If you sent something by
+mistake, contact us with the time you sent it and what it said, and we will try.</p>
+
+<h2>6. When we may share data</h2>
+<p>We don't share reports with anyone, except:</p>
+<ul>
+  <li>our hosting providers, who store them for us (see section 5);</li>
+  <li>if the law, a court or a government authority requires it;</li>
+  <li>if EnclyraLabs or Enclyra is ever merged, sold or transferred. The reports may then go to the new owner, who
+      must follow this policy.</li>
+</ul>
+
+<h2>7. When the app goes online</h2>
+<p>The app works offline by default. It connects to the internet only in these cases:</p>
+<ul>
+  <li><b>Update check:</b> when the app starts (if updates are on), it checks our website for a new version.
+      None of your data is sent.</li>
+  <li><b>"Am I online?" check:</b> a quick look-up so the app can honestly say when you are offline. No data.</li>
+  <li><b>When you ask for something online:</b> web search, news, pictures, videos, downloads, opening websites,
+      price watch, currency rates, your public IP address, or an internet speed test. The search words, link or
+      product you ask for go to that service (for example DuckDuckGo, Google News, YouTube, Amazon, Keepa,
+      Wikipedia, ipify, Cloudflare). Those services have their own privacy policies.</li>
+  <li><b>Commands you approve:</b> installs (pip, npm, brew), git and model downloads reach the internet, the same
+      as if you ran them yourself.</li>
+  <li><b>Sending reports or feedback</b>, as described above.</li>
+</ul>
+<p>The app writes every one of these connections in a network log on your Mac
+(Settings → Storage &amp; privacy → Open the network log), so you can check for yourself.</p>
+
+<h2>8. Your choices</h2>
+<ul>
+  <li><b>Change your report choice at any time:</b> Settings → Storage &amp; privacy → Failure reports →
+      Ask me each time / Always send / Never send.</li>
+  <li>If you don't press Send and don't choose Always send, nothing reaches us.</li>
+  <li>Turn off update checks in Settings → General → Updates.</li>
+  <li>Delete <code>~/Library/Application Support/EnclyraAI</code> to remove the app's data from your Mac.</li>
+</ul>
+<p>Changing your choice stops future reports. It does not remove reports you already sent.</p>
+
+<h2>9. Permissions on your Mac</h2>
+<p>macOS may ask you to allow things like Files and Folders, Screen Recording (for reading text on your screen),
+Accessibility, Calendar, Reminders, Notes or Music. These permissions let the app do what you ask on your own Mac.
+Data the app reads through them stays on your Mac. You can turn them off at any time in System Settings →
+Privacy &amp; Security.</p>
+
+<h2>10. Children</h2>
+<p>Enclyra is not made for children under 13. We don't knowingly collect data from children. If you are under
+the age where your country requires a parent's consent, please use Enclyra only with that consent.</p>
+
+<h2>11. Changes</h2>
+<p>If this policy changes, we will update the date at the top and post the new version on this page. If the change
+is important, we will also say so in the app or on our website. Reports you sent before a change stay under the
+policy you sent them under, unless you agree otherwise.</p>
+
+<h2>12. Contact</h2>
+<p>Questions about privacy: our Discord: <a href="https://discord.gg/G4qpG5pTCa">discord.gg/G4qpG5pTCa</a></p>
+
+<p><small>© 2026 EnclyraLabs. <a href="terms.html">Terms of Use</a></small></p>
+</main>
+</body>
+</html>
