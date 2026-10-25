@@ -42,6 +42,10 @@ including to train our AI.
   <li>Enclyra's memory: what it learns about you, your habits and your preferences.</li>
   <li>The file index the app builds so it can find your files fast.</li>
   <li>Your settings and personal details you enter.</li>
+  <li>A working log of the actions Enclyra ran: your requests, the steps, the files they used, and any errors. It
+      records actions only — never Enclyra's memory or your chats. Only the newest ~8 MB is kept; older lines are
+      deleted automatically. You can delete it any time.</li>
+  <li>A network log: each time Enclyra went online, and where to.</li>
 </ul>
 <p>The AI models run on your Mac (through Ollama / llama.cpp). Your requests are not sent to a cloud AI.</p>
 <p>App data is kept in <code>~/Library/Application Support/EnclyraAI</code>. You can delete that folder at any time
@@ -61,8 +65,9 @@ to remove it.</p>
   <li>the app version, your macOS version and your chip type (for example "macOS 15.1 arm64");</li>
   <li>the name of the step that failed, and its error message;</li>
   <li>what you asked (up to 600 characters);</li>
-  <li>the app's technical log for that one request (up to 6,000 characters): which steps ran, in what order, and
-      what went wrong;</li>
+  <li>the app's technical log for that one request (up to 6,000 characters), <b>action steps only</b>: which steps
+      ran, in what order, and what went wrong. Lines about Enclyra's memory, your chats or what it learned about you
+      are never included;</li>
   <li>for the bug button: the list of steps the plan ran.</li>
 </ul>
 
