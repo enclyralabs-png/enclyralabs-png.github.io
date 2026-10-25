@@ -1,4 +1,4 @@
-// GET  /api/version — the app asks on every launch: {"ok":true,"version":"1.1.0","url":"https://www.enclyralabs.com"}
+// GET  /api/version — the app asks on every launch: {"ok":true,"version":"1.1.0","url":"...","notes":"what's new"}
 //      (version null = nothing released yet). Nothing about the asker is read or stored.
 // POST /api/version — ONLY desk.py on your Mac (header x-desk-key = DESK_KEY): {"version":"1.1.0","url":"..."}
 import { redis, ready } from "./_store.js";
@@ -15,7 +15,8 @@ export default async function handler(req, res) {
     try { rec = JSON.parse((await redis(["GET", KEY])) || "null"); } catch { rec = null; }
     // the CDN answers repeat asks for 10 min, so launches don't eat the free storage quota
     res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=3600");
-    return res.status(200).json({ ok: true, version: rec?.version || null, url: rec?.url || DEFAULT_URL });
+    return res.status(200).json({ ok: true, version: rec?.version || null, url: rec?.url || DEFAULT_URL,
+                                  notes: rec?.notes || "" });
   }
 
   if (req.method === "POST") {
@@ -27,9 +28,10 @@ export default async function handler(req, res) {
     }
     const version = String(body?.version || "").trim();
     const url = String(body?.url || DEFAULT_URL).trim();
+    const notes = String(body?.notes || "").replace(/\s+/g, " ").trim().slice(0, 200);   // what's new, one line
     if (!VER.test(version) || !/^https:\/\/[^\s]{3,200}$/.test(url)) return res.status(400).json({ ok: false, error: "bad version or url" });
-    await redis(["SET", KEY, JSON.stringify({ version, url, ts: new Date().toISOString() })]);
-    return res.status(200).json({ ok: true, version, url });
+    await redis(["SET", KEY, JSON.stringify({ version, url, notes, ts: new Date().toISOString() })]);
+    return res.status(200).json({ ok: true, version, url, notes });
   }
 
   return res.status(405).json({ ok: false });
