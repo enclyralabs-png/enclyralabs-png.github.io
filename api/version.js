@@ -3,6 +3,7 @@
 //      counted into today's set (Redis HyperLogLog, kept 40 days) — no IP, nothing else about the asker is stored.
 // GET  /api/version?stats=1 — ONLY desk.py (x-desk-key): {"ok":true,"active":{"today":n,"7d":n,"30d":n}}
 // POST /api/version — ONLY desk.py on your Mac (header x-desk-key = DESK_KEY): {"version":"1.1.0","url":"..."}
+// DELETE /api/version[?reports=1] — ONLY desk.py: reset the active counts (+ the stored reports) after testing
 import { redis, ready } from "./_store.js";
 
 const KEY = "enclyra:latest";
@@ -40,6 +41,18 @@ export default async function handler(req, res) {
     res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=3600");
     return res.status(200).json({ ok: true, version: rec?.version || null, url: rec?.url || DEFAULT_URL,
                                   notes: rec?.notes || "" });
+  }
+
+  // DELETE /api/version — ONLY desk.py (x-desk-key): wipe the "active" counts (and, with ?reports=1, the stored
+  // reports) so testing never counts as users (2026-11-04). Nothing else is touched.
+  if (req.method === "DELETE") {
+    if (!deskOk(req)) return res.status(401).json({ ok: false });
+    res.setHeader("Cache-Control", "no-store");
+    const days = Array.from({ length: 41 }, (_, i) => dayKey(i));
+    const removed = await redis(["DEL", ...days]);
+    let reports = 0;
+    if (req.query?.reports) reports = await redis(["DEL", "enclyra:reports"]);
+    return res.status(200).json({ ok: true, active_keys_removed: removed, reports_list_removed: reports });
   }
 
   if (req.method === "POST") {
