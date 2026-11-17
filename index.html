@@ -209,6 +209,48 @@
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.enclyralabs.com/#org",
+        "name": "EnclyraLabs",
+        "alternateName": ["Enclyra Labs", "Enclyra"],
+        "url": "https://www.enclyralabs.com",
+        "logo": "https://www.enclyralabs.com/site_deploy/icons/enclyra2_logo.png",
+        "description": "EnclyraLabs is an independent studio that makes Enclyra, an offline AI system for macOS.",
+        "disambiguatingDescription": "EnclyraLabs (spelled with a y) makes the Enclyra app for macOS. It is not affiliated with Enclira Labs Private Limited or any other similarly named company.",
+        "sameAs": [
+          "https://x.com/enclyralabs",
+          "https://github.com/enclyralabs-png"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://www.enclyralabs.com/#app",
+        "name": "Enclyra",
+        "alternateName": "Enclyra AI",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "macOS (Apple Silicon)",
+        "softwareVersion": "0.9.1",
+        "description": "Enclyra is an offline AI system for the Mac. It runs a local 4B model on your MacBook and does multi-step tasks end to end, such as creating, moving, renaming, zipping and converting files, editing images, video and PDFs, and changing settings. Built for 8 GB of RAM. Your data and the model stay on your Mac; the web is used only when a task needs a search.",
+        "featureList": [
+          "Runs fully on your Mac with a local 4B model",
+          "Optimized for 8 GB of RAM on Apple Silicon",
+          "80+ core actions for files, apps and settings",
+          "4 studios: image, video, PDF and presentation",
+          "Multi-step tasks from one command",
+          "Nothing is sent unless you choose to send a report"
+        ],
+        "downloadUrl": "https://github.com/enclyralabs-png/enclyra-releases/releases/latest/download/Enclyra.dmg",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "publisher": { "@id": "https://www.enclyralabs.com/#org" }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <div class="site-shell">
